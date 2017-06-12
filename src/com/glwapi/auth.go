@@ -2,180 +2,92 @@
 package glwapi
 
 import (
-	"fmt"
 	"encoding/json"
-	"net/url"
-	"net/http"
-	"time"
+	"fmt"
 )
+
 
 const (
-	code_url = "https://open.weixin.qq.com/connect/oauth2/authorize"
-	token_url = "https://api.weixin.qq.com/sns/oauth2/access_token"
+	token_wechat_url = "https://api.weixin.qq.com/cgi-bin/token"
 )
 
-
-/*
- 
-  Error message for auth 
- */
+// Auth Error Message
 type AuthError struct {
-	Err   string
+	Err    string
 }
 
-// error interface implement
-func (err *AuthError) Error() string { return err.Err }
-
+// Auth Error Message implments error interface
+func (ae  AuthError) Error() string {
+	return ae.Err
+}
 
 /*
-  Related Auth API interface:
-    Whole auth process follow below sequence:
-    1.  Code URL
-    2.  HandleCodeURLResponse
-    3.  TokenURL
-    4.  HandleTokenURLResponse
-    5.  TokenURL
-    6.  HandleFTokenURLResponse
+  WeChat auth response struct wrapper
 */
-type AuthApi  interface {
-
-	/*
- 	Generate Code get URL for wechat auth first step 
- 	return  url state error
-        If redirect url, will throw error
-        If no state, will autmatically generate state info
- 	*/
-	CodeURL(r string, s string)      (string, string, error)
-
-	/*
- 	    Generate Token get URL for wechat auth 3th step 
- 	    return  url  error
-            If No code, will throw error
- 	*/
-	TokenURL(code string)     (string, error)
-
-	FTokenURL(ftoken string)  (string, error)
-
-	HandleCodeURLResponse(r * http.Request)   (string, string, error)
-
-	HandleCode(code string, state string)   (string, string, error)
-
-	HandleTokenURLResponse(data []byte)   (*WeChatUser, error)
-
-	HandleFTokenURLResponse(data []byte)   (*WeChatUser, error)
+type AuthRespJson struct {
+	ErrCode     int    `json:"errcode"`
+	ErrMsg      string `json:"errmsg"`
+	AccToken    string `json:"access_token"`
+	Expires     int    `json:"expires_in"`
 }
 
-
-
 /*
- Generate Code get URL for wechat auth first setp 
- return  url state error
+   Auth API interface
  */
-func (c * GlwapiConfig) CodeURL(r string, s string)  (string, string, error) {
-	var st string
-	if  len(r) <=0 {
-		return "", "", &AuthError{"No redirect URL"}
-	}
-	ur := url.QueryEscape(r)
-	if len(s) <= 0 {
-		st = time.Now().String()
-	} else {
-		st = s;	
-	}
-	
-	u := fmt.Sprintf("%s?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_userinfo&state=%s#wechat_redirect", code_url, c.WeChat.AppId, ur, st)
-	return u, st, nil
+type AuthApi interface {
+	// Generate TOKEN URL
+	TokenURL()    string
+
+	// Handle Token URL response and return struct of WeChatConfig if succeeed
+	// Otherwise error is not nil
+	HandleTokenAuthResp(d []byte)  (*WeChatConfig, error)
 }
 
 
-/*
-
-*/
-func (c * GlwapiConfig) TokenURL(code string) (string, error) {
-	if len(code) <= 0 {
-		return "", &AuthError{"No available code"}
-	}
-	u := fmt.Sprintf("%s?appid=%s&secret=%s&code=%s&grant_type=authorization_code", token_url, c.WeChat.AppId, c.WeChat.Secret, code)
-	return u, nil
+func (g * GlwapiConfig) TokenURL() string {
+	return g.WeChat.TokenURL()
 }
 
-func (c * GlwapiConfig) FTokenURL(ftoken string) (string, error) {
-	if len(ftoken) <= 0 {
-		return "", &AuthError{"No available refresh toekn"}
-	}
-	u := fmt.Sprintf("%s?appid=%s&grant_type=refresh_token&refresh_token=%s", token_url, c.WeChat.AppId, ftoken)
-	return u, nil
+func (w * WeChatConfig) TokenURL() string {
+	var u string
+	u = fmt.Sprintf("%s?grant_type=client_credential&appid=%s&secret=%s", token_wechat_url, w.AppId, w.Secret)
+	return u
 }
 
-func (c * GlwapiConfig) HandleCodeURLResponse(r * http.Request)   (string, string, error) {
-	if r == nil {
-		return "", "", &AuthError{"No request "}
+func (w * WeChatConfig) HandleTokenAuthResp(d []byte)  (*WeChatConfig, error) {
+	if d == nil {
+		return nil, AuthError{"No data avaialble"}
 	}
-	return c.HandleCode(r.Header.Get("code"), r.Header.Get("state"))
-}
-
-func (c * GlwapiConfig)	HandleCode(code string, state string)   (string, string, error) {
-	//TODO check state value
-	if c.StateCheck == false {
-		return code, state, nil
-	} else {
-		//TODO Check state
-		return code, state, nil
-	}
-}
-
-
-func (c * GlwapiConfig)	HandleTokenURLResponse(data []byte)   (*WeChatUser, error) {
-	var user * WeChatUser =&WeChatUser{}
-	if data == nil {
-		return nil, &AuthError{"No data"}
-	}
-	if err := json.Unmarshal(data, user); err == nil {
-		if user.Err > 0 {
-			er := fmt.Sprintf("Umaarshal failed: %d",user.Err)
-			return nil, &AuthError{er}
-		}
-		var u * WeChatUser = c.users[user.OpenId]
-		if u == nil {
-			c.users[user.OpenId] = user
-			u = user
+	var arj AuthRespJson = AuthRespJson{}
+	if err := json.Unmarshal(d, &arj); err == nil {
+		if arj.ErrCode > 0 {
+			return nil, AuthError{"Auth failed:" + arj.ErrMsg}
 		} else {
-			u.Token = user.Token
-			u.FToken = user.FToken
-			u.Expires = user.Expires
-			u.OpenId = user.OpenId
-			u.Err = user.Err
+			w.Token = arj.AccToken
+			w.Expires = arj.Expires
 		}
-		return u, nil
+		return w, nil
 	} else {
-		return nil, &AuthError{"Umaarshal failed:"+err.Error()}
+		return nil, AuthError{"Can not parse response:" + err.Error()}
 	}
 }
 
-func (c * GlwapiConfig)	HandleFTokenURLResponse(data []byte)   (*WeChatUser, error) {
-	var user * WeChatUser =&WeChatUser{}
-	if data == nil {
-		return nil, &AuthError{"No data"}
-	}
-	if err := json.Unmarshal(data, user); err == nil {
-		if user.Err > 0 {
-			er := fmt.Sprintf("Umaarshal failed: %d",user.Err)
-			return nil, &AuthError{er}
-		}
-		var u * WeChatUser = c.users[user.OpenId]
-		if u == nil {
-			c.users[user.OpenId] = user
-			u = user
-		} else {
-			u.Token = user.Token
-			u.FToken = user.FToken
-			u.Expires = user.Expires
-			u.OpenId = user.OpenId
-			u.Err = user.Err
-		}
-		return u, nil
+func (g * GlwapiConfig) HandleTokenAuthResp(d []byte)  (*WeChatConfig, error) {
+	return g.WeChat.HandleTokenAuthResp(d)
+}
+
+
+
+func (w *WeChatConfig) IsExpired() bool {
+	//TODO add check 
+	return false
+}
+
+func (w *WeChatConfig) IsTokened() bool {
+	if len(w.Token) > 0 {
+		return true
 	} else {
-		return nil, &AuthError{"Umaarshal failed:"+err.Error()}
+		return false
 	}
 }
 

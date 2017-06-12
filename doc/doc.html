@@ -1,0 +1,2039 @@
+use 'godoc cmd/com/glwapi' for documentation on the com/glwapi command 
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script type='text/javascript'>
+	document.ANALYSIS_DATA = ;
+	document.CALLGRAPH = ;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "com/glwapi"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+A tool wechat API of GO implement
+This Tool Doesn&#39;t contain http server part
+Example:
+Initalize glwapi configuration:
+</p>
+<pre>g := glwapi.D()
+ret := g.Init(data.Appid, data.Secret, data.MchId, data.MchApiKey)
+if ret != true {
+     log.Fatal(&#34; initalize glwapi failed&#34;)
+}
+</pre>
+<p>
+Get Token:
+</p>
+<pre>g := glwapi.D()
+if g.IsInit() == false {
+      LE(&#34;glwapi doesn&#39;t inital yet&#34;)
+      return
+}
+token_url := g.TokenURL()
+r, err :=  http.Get(token_url)
+if err == nil {
+      defer r.Body.Close()
+      rdata, _ := ioutil.ReadAll(r.Body)
+      _, e := g.HandleTokenAuthResp([]byte(rdata))
+      if e != nil {
+           LE(&#34;Handle auth response error:%s&#34;, e)
+      } else {
+           LI(&#34;Get auth token successfully: %s\n&#34;, g)
+      }
+}
+</pre>
+
+			</div>
+		</div>
+		
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+				<dd><a href="#pkg-constants">Constants</a></dd>
+			
+			
+			
+				
+				<dd><a href="#DecodeCloseOrderResp">func DecodeCloseOrderResp(o *WeChatOrder, data []byte) error</a></dd>
+			
+				
+				<dd><a href="#DecodeCreateOrderResp">func DecodeCreateOrderResp(o *WeChatOrder, data []byte) error</a></dd>
+			
+				
+				<dd><a href="#DecodePaymentResult">func DecodePaymentResult(o *WeChatOrder, data []byte) error</a></dd>
+			
+				
+				<dd><a href="#DecodeQueryOrderResp">func DecodeQueryOrderResp(o *WeChatOrder, data []byte) error</a></dd>
+			
+				
+				<dd><a href="#DecodeQueryRefundResp">func DecodeQueryRefundResp(o *WeChatOrder, data []byte) error</a></dd>
+			
+				
+				<dd><a href="#DecodeRequestRefundResp">func DecodeRequestRefundResp(o *WeChatOrder, data []byte) error</a></dd>
+			
+				
+				<dd><a href="#EncodeCloseOrderXml">func EncodeCloseOrderXml(o *WeChatOrder) (string, error)</a></dd>
+			
+				
+				<dd><a href="#EncodeCreateOrderXml">func EncodeCreateOrderXml(o *WeChatOrder) (string, error)</a></dd>
+			
+				
+				<dd><a href="#EncodeDownloadBillXml">func EncodeDownloadBillXml(o *WeChatOrder) (string, error)</a></dd>
+			
+				
+				<dd><a href="#EncodePaymentResultRespXml">func EncodePaymentResultRespXml(code string, msg string) (string, error)</a></dd>
+			
+				
+				<dd><a href="#EncodeQueryOrderXml">func EncodeQueryOrderXml(o *WeChatOrder) (string, error)</a></dd>
+			
+				
+				<dd><a href="#EncodeQueryRefundXml">func EncodeQueryRefundXml(o *WeChatOrder) (string, error)</a></dd>
+			
+				
+				<dd><a href="#EncodeRequestRefundXml">func EncodeRequestRefundXml(o *WeChatOrder) (string, error)</a></dd>
+			
+				
+				<dd><a href="#Md5">func Md5(str string) string</a></dd>
+			
+				
+				<dd><a href="#R">func R(n int) string</a></dd>
+			
+				
+				<dd><a href="#Sha1">func Sha1(str string) string</a></dd>
+			
+			
+				
+				<dd><a href="#AuthApi">type AuthApi</a></dd>
+				
+				
+			
+				
+				<dd><a href="#AuthError">type AuthError</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#AuthError.Error">func (ae AuthError) Error() string</a></dd>
+				
+			
+				
+				<dd><a href="#AuthRespJson">type AuthRespJson</a></dd>
+				
+				
+			
+				
+				<dd><a href="#GlwapiConfig">type GlwapiConfig</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#D">func D() *GlwapiConfig</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.CodeURL">func (c *GlwapiConfig) CodeURL(r string, s string) (string, string, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.Destroy">func (c *GlwapiConfig) Destroy() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.GetJSAuth">func (c *GlwapiConfig) GetJSAuth(ticket string, url string) (*WeChatJS, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.GetJSTicketURL">func (c *GlwapiConfig) GetJSTicketURL() (string, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.HandleCode">func (c *GlwapiConfig) HandleCode(code string, state string) (string, string, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.HandleCodeURLResponse">func (c *GlwapiConfig) HandleCodeURLResponse(r *http.Request) (string, string, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.HandleTicketResp">func (c *GlwapiConfig) HandleTicketResp(d []byte) (string, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.HandleTokenAuthResp">func (g *GlwapiConfig) HandleTokenAuthResp(d []byte) (*WeChatConfig, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.HandleUserFTokenURLResponse">func (c *GlwapiConfig) HandleUserFTokenURLResponse(data []byte) (*WeChatUser, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.HandleUserTokenURLResponse">func (c *GlwapiConfig) HandleUserTokenURLResponse(data []byte) (*WeChatUser, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.Init">func (c *GlwapiConfig) Init(appid string, secret string, mchid string, apikey string) bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.IsInit">func (c *GlwapiConfig) IsInit() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.RegEventListener">func (c *GlwapiConfig) RegEventListener(h *GlwapiEventsNotifier)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.String">func (c *GlwapiConfig) String() string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.TokenURL">func (g *GlwapiConfig) TokenURL() string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.UserFTokenURL">func (c *GlwapiConfig) UserFTokenURL(ftoken string) (string, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlwapiConfig.UserTokenURL">func (c *GlwapiConfig) UserTokenURL(code string) (string, error)</a></dd>
+				
+			
+				
+				<dd><a href="#GlwapiEvent">type GlwapiEvent</a></dd>
+				
+				
+			
+				
+				<dd><a href="#GlwapiEventsNotifier">type GlwapiEventsNotifier</a></dd>
+				
+				
+			
+				
+				<dd><a href="#GlwapiHandler">type GlwapiHandler</a></dd>
+				
+				
+			
+				
+				<dd><a href="#JSAuthError">type JSAuthError</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#JSAuthError.Error">func (js *JSAuthError) Error() string</a></dd>
+				
+			
+				
+				<dd><a href="#JsApi">type JsApi</a></dd>
+				
+				
+			
+				
+				<dd><a href="#OrderApi">type OrderApi</a></dd>
+				
+				
+			
+				
+				<dd><a href="#OrderRefund">type OrderRefund</a></dd>
+				
+				
+			
+				
+				<dd><a href="#PaymentCoupon">type PaymentCoupon</a></dd>
+				
+				
+			
+				
+				<dd><a href="#PaymentRefund">type PaymentRefund</a></dd>
+				
+				
+			
+				
+				<dd><a href="#UserAuthApi">type UserAuthApi</a></dd>
+				
+				
+			
+				
+				<dd><a href="#UserAuthError">type UserAuthError</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#UserAuthError.Error">func (err *UserAuthError) Error() string</a></dd>
+				
+			
+				
+				<dd><a href="#WeChatConfig">type WeChatConfig</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatConfig.CreateOrder1">func (w *WeChatConfig) CreateOrder1(user *WeChatUser, orderId string, desc string, detail string, additional string, ip string, url string, fee int) (*WeChatOrder, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatConfig.GetJSAuth">func (w *WeChatConfig) GetJSAuth(ticket string, url string) (*WeChatJS, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatConfig.GetJSTicketURL">func (w *WeChatConfig) GetJSTicketURL() (string, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatConfig.HandleTokenAuthResp">func (w *WeChatConfig) HandleTokenAuthResp(d []byte) (*WeChatConfig, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatConfig.IsExpired">func (w *WeChatConfig) IsExpired() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatConfig.IsGotJSToken">func (w *WeChatConfig) IsGotJSToken() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatConfig.IsPaymentValid">func (w *WeChatConfig) IsPaymentValid() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatConfig.IsTokened">func (w *WeChatConfig) IsTokened() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatConfig.IsValid">func (w *WeChatConfig) IsValid() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatConfig.String">func (w *WeChatConfig) String() string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatConfig.TokenURL">func (w *WeChatConfig) TokenURL() string</a></dd>
+				
+			
+				
+				<dd><a href="#WeChatJS">type WeChatJS</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatJS.N">func (js *WeChatJS) N() string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatJS.S">func (js *WeChatJS) S() string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatJS.String">func (js *WeChatJS) String() string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatJS.T">func (js *WeChatJS) T() string</a></dd>
+				
+			
+				
+				<dd><a href="#WeChatOrder">type WeChatOrder</a></dd>
+				
+				
+			
+				
+				<dd><a href="#WeChatPaymentError">type WeChatPaymentError</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatPaymentError.Error">func (p *WeChatPaymentError) Error() string</a></dd>
+				
+			
+				
+				<dd><a href="#WeChatSec">type WeChatSec</a></dd>
+				
+				
+			
+				
+				<dd><a href="#WeChatUser">type WeChatUser</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#WeChatUser.String">func (u *WeChatUser) String() string</a></dd>
+				
+			
+				
+				<dd><a href="#WeChatUserP">type WeChatUserP</a></dd>
+				
+				
+			
+				
+				<dd><a href="#XmlD">type XmlD</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#XmlD.MarshalXML">func (x XmlD) MarshalXML(e *xml.Encoder, start xml.StartElement) error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#XmlD.UnmarshalXML">func (x *XmlD) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error</a></dd>
+				
+			
+				
+				<dd><a href="#XmlDecode">type XmlDecode</a></dd>
+				
+				
+			
+				
+				<dd><a href="#XmlEncode">type XmlEncode</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h4>Package files</h4>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/com/glwapi/auth.go">auth.go</a>
+			
+				<a href="/src/com/glwapi/doc.go">doc.go</a>
+			
+				<a href="/src/com/glwapi/glwapi.go">glwapi.go</a>
+			
+				<a href="/src/com/glwapi/js.go">js.go</a>
+			
+				<a href="/src/com/glwapi/payment.go">payment.go</a>
+			
+				<a href="/src/com/glwapi/payment_const.go">payment_const.go</a>
+			
+				<a href="/src/com/glwapi/type.go">type.go</a>
+			
+				<a href="/src/com/glwapi/user_auth.go">user_auth.go</a>
+			
+				<a href="/src/com/glwapi/util.go">util.go</a>
+			
+				<a href="/src/com/glwapi/wechat.go">wechat.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		<div id="pkg-callgraph" class="toggle" style="display: none">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Internal Call Graph section">Internal call graph ▹</h2>
+		</div> <!-- .expanded -->
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Internal Call Graph section">Internal call graph ▾</h2>
+			<p>
+			  In the call graph viewer below, each node
+			  is a function belonging to this package
+			  and its children are the functions it
+			  calls&mdash;perhaps dynamically.
+			</p>
+			<p>
+			  The root nodes are the entry points of the
+			  package: functions that may be called from
+			  outside the package.
+			  There may be non-exported or anonymous
+			  functions among them if they are called
+			  dynamically from another package.
+			</p>
+			<p>
+			  Click a node to visit that function's source code.
+			  From there you can visit its callers by
+			  clicking its declaring <code>func</code>
+			  token.
+			</p>
+			<p>
+			  Functions may be omitted if they were
+			  determined to be unreachable in the
+			  particular programs or tests that were
+			  analyzed.
+			</p>
+			<!-- Zero means show all package entry points. -->
+			<ul style="margin-left: 0.5in" id="callgraph-0" class="treeview"></ul>
+		</div>
+		</div> <!-- #pkg-callgraph -->
+
+		
+			<h2 id="pkg-constants">Constants</h2>
+			
+				
+				<pre>const (
+    <span id="CO_SUCCESS">CO_SUCCESS</span>                   = &#34;SUCCESS&#34;
+    <span id="CO_ERR_NOAUTH">CO_ERR_NOAUTH</span>                = &#34;NOAUTH&#34;
+    <span id="CO_ERR_NOTENOUGH">CO_ERR_NOTENOUGH</span>             = &#34;NOTENOUGH&#34;
+    <span id="CO_ERR_ORDERPAID">CO_ERR_ORDERPAID</span>             = &#34;ORDERPAID&#34;
+    <span id="CO_ERR_ORDERCLOSED">CO_ERR_ORDERCLOSED</span>           = &#34;ORDERCLOSED&#34;
+    <span id="CO_ERR_SYSTEMERROR">CO_ERR_SYSTEMERROR</span>           = &#34;SYSTEMERROR&#34;
+    <span id="CO_ERR_APPID_NOT_EXIST">CO_ERR_APPID_NOT_EXIST</span>       = &#34;APPID_NOT_EXIST&#34;
+    <span id="CO_ERR_APPID_MCHID_NOT_MATCH">CO_ERR_APPID_MCHID_NOT_MATCH</span> = &#34;APPID_MCHID_NOT_MATCH&#34;
+    <span id="CO_ERR_LACK_PARAM">CO_ERR_LACK_PARAM</span>            = &#34;LACK_PARAM&#34;
+    <span id="CO_ERR_OUT_TRADE_NO_USED">CO_ERR_OUT_TRADE_NO_USED</span>     = &#34;OUT_TRADE_NO_USED&#34;
+    <span id="CO_ERR_SIGNERROR">CO_ERR_SIGNERROR</span>             = &#34;SIGNERROR&#34;
+    <span id="CO_ERR_XML_FORMAT_ERROR">CO_ERR_XML_FORMAT_ERROR</span>      = &#34;XML_FORMAT_ERROR&#34;
+    <span id="CO_ERR_REQUIRE_POST_METHOD">CO_ERR_REQUIRE_POST_METHOD</span>   = &#34;REQUIRE_POST_METHOD&#34;
+    <span id="CO_ERR_POST_DATA_EMPTY">CO_ERR_POST_DATA_EMPTY</span>       = &#34;POST_DATA_EMPTY&#34;
+    <span id="CO_ERR_NOT_UTF8">CO_ERR_NOT_UTF8</span>              = &#34;NOT_UTF8&#34;
+)</pre>
+			
+				
+				<pre>const (
+    <span class="comment">// The successful result code of handle payment result notifcation</span>
+    <span id="PAYMENT_R_SUCCESS">PAYMENT_R_SUCCESS</span> = &#34;SUCCESS&#34;
+
+    <span class="comment">// The failed result code of handle payment result notifcation</span>
+    <span id="PAYMENT_R_FAIL">PAYMENT_R_FAIL</span> = &#34;FAIL&#34;
+)</pre>
+			
+				
+				<pre>const (
+    <span class="comment">// WeChat payment Address base</span>
+    <span id="PAYMENT_URL_BASE">PAYMENT_URL_BASE</span> = &#34;https://api.mch.weixin.qq.com&#34;
+
+    <span class="comment">// WeChat payment create order url</span>
+    <span id="PAYMENT_URL_CO">PAYMENT_URL_CO</span> = <a href="#PAYMENT_URL_BASE">PAYMENT_URL_BASE</a> + &#34;/pay/unifiedorder&#34;
+
+    <span class="comment">//WeChat payment query order url</span>
+    <span id="PAYMENT_URL_QO">PAYMENT_URL_QO</span> = <a href="#PAYMENT_URL_BASE">PAYMENT_URL_BASE</a> + &#34;/pay/orderquery&#34;
+
+    <span class="comment">//WeChat payment close order url</span>
+    <span id="PAYMENT_URL_DO">PAYMENT_URL_DO</span> = <a href="#PAYMENT_URL_BASE">PAYMENT_URL_BASE</a> + &#34;/pay/closeorder&#34;
+
+    <span class="comment">//WeChat payment refund url</span>
+    <span id="PAYMENT_URL_RR">PAYMENT_URL_RR</span> = <a href="#PAYMENT_URL_BASE">PAYMENT_URL_BASE</a> + &#34;/secapi/pay/refund&#34;
+
+    <span class="comment">//WeChat payment query refund url</span>
+    <span id="PAYMENT_URL_QRR">PAYMENT_URL_QRR</span> = <a href="#PAYMENT_URL_BASE">PAYMENT_URL_BASE</a> + &#34;/pay/refundquery&#34;
+
+    <span class="comment">//WeChat payment download bill url</span>
+    <span id="PAYMENT_URL_DB">PAYMENT_URL_DB</span> = <a href="#PAYMENT_URL_BASE">PAYMENT_URL_BASE</a> + &#34;/pay/downloadbill&#34;
+)</pre>
+			
+				
+				<pre>const (
+    <span id="QO_RES_SUCCESS">QO_RES_SUCCESS</span>         = &#34;SUCCESS&#34;
+    <span id="QO_RES_ORDER_NOT_EXIST">QO_RES_ORDER_NOT_EXIST</span> = &#34;ORDERNOTEXIST&#34;
+    <span id="QO_RES_UNKNOWN">QO_RES_UNKNOWN</span>         = &#34;SYSTEMERROR&#34;
+)</pre>
+			
+				
+				<pre>const (
+    <span id="DO_RES_SUCCESS">DO_RES_SUCCESS</span>             = &#34;SUCCESS&#34;
+    <span id="DO_RES_ORDERPAID">DO_RES_ORDERPAID</span>           = &#34;ORDERPAID&#34;
+    <span id="DO_RES_ORDERCLOSED">DO_RES_ORDERCLOSED</span>         = &#34;ORDERCLOSED&#34;
+    <span id="DO_RES_SIGNERROR">DO_RES_SIGNERROR</span>           = &#34;SIGNERROR&#34;
+    <span id="DO_RES_REQUIRE_POST_METHOD">DO_RES_REQUIRE_POST_METHOD</span> = &#34;REQUIRE_POST_METHOD&#34;
+    <span id="DO_RES_XML_FORMAT_ERROR">DO_RES_XML_FORMAT_ERROR</span>    = &#34;XML_FORMAT_ERROR&#34;
+    <span id="DO_RES_UNKNOWN">DO_RES_UNKNOWN</span>             = &#34;SYSTEMERROR&#34;
+)</pre>
+			
+				
+				<pre>const (
+    <span id="TRADE_STATE_SUCCESS">TRADE_STATE_SUCCESS</span>     = &#34;SUCCESS&#34;
+    <span id="TRADE_STATE_REFUND">TRADE_STATE_REFUND</span>      = &#34;REFUND&#34;
+    <span id="TRADE_STATE_NOT_PAY">TRADE_STATE_NOT_PAY</span>     = &#34;NOTPAY&#34;
+    <span id="TRADE_STATE_CLOSED">TRADE_STATE_CLOSED</span>      = &#34;CLOSED&#34;
+    <span id="TRADE_STATE_REVOKED">TRADE_STATE_REVOKED</span>     = &#34;REVOKED&#34;
+    <span id="TRADE_STATE_USER_PAYING">TRADE_STATE_USER_PAYING</span> = &#34;USERPAYING&#34;
+    <span id="TRADE_STATE_PAYERROR">TRADE_STATE_PAYERROR</span>    = &#34;PAYERROR&#34;
+)</pre>
+			
+				
+				<pre>const (
+    <span id="RR_RES_SUCCESS">RR_RES_SUCCESS</span>               = &#34;SUCCESS&#34;
+    <span id="RR_RES_SYSTEMERROR">RR_RES_SYSTEMERROR</span>           = &#34;SYSTEMERROR&#34;
+    <span id="RR_RES_BIZERR_NEED_RETRY">RR_RES_BIZERR_NEED_RETRY</span>     = &#34;BIZERR_NEED_RETRY&#34;
+    <span id="RR_RES_TRADE_OVERDUE">RR_RES_TRADE_OVERDUE</span>         = &#34;TRADE_OVERDUE&#34;
+    <span id="RR_RES_ERROR">RR_RES_ERROR</span>                 = &#34;ERROR&#34;
+    <span id="RR_RES_USER_ACCOUNT_ABNORMAL">RR_RES_USER_ACCOUNT_ABNORMAL</span> = &#34;USER_ACCOUNT_ABNORMAL&#34;
+    <span id="RR_RES_INVALID_REQ_TOO_MUCH">RR_RES_INVALID_REQ_TOO_MUCH</span>  = &#34;INVALID_REQ_TOO_MUCH&#34;
+    <span id="RR_RES_NOTENOUGH">RR_RES_NOTENOUGH</span>             = &#34;NOTENOUGH&#34;
+    <span id="RR_RES_INVALID_TRANSACTIONID">RR_RES_INVALID_TRANSACTIONID</span> = &#34;INVALID_TRANSACTIONID&#34;
+    <span id="RR_RES_PARAM_ERROR">RR_RES_PARAM_ERROR</span>           = &#34;PARAM_ERROR&#34;
+    <span id="RR_RES_APPID_NOT_EXIST">RR_RES_APPID_NOT_EXIST</span>       = &#34;APPID_NOT_EXISTAPPID&#34;
+    <span id="RR_RES_MCHID_NOT_EXIST">RR_RES_MCHID_NOT_EXIST</span>       = &#34;MCHID_NOT_EXISTMCHID&#34;
+    <span id="RR_RES_REQUIRE_POST_METHOD">RR_RES_REQUIRE_POST_METHOD</span>   = &#34;REQUIRE_POST_METHOD&#34;
+    <span id="RR_RES_SIGNERROR">RR_RES_SIGNERROR</span>             = &#34;SIGNERROR&#34;
+    <span id="RR_RES_XML_FORMAT_ERROR">RR_RES_XML_FORMAT_ERROR</span>      = &#34;XML_FORMAT_ERROR&#34;
+    <span id="RR_RES_FREQUENCY_LIMITED">RR_RES_FREQUENCY_LIMITED</span>     = &#34;FREQUENCY_LIMITED&#34;
+)</pre>
+			
+				
+				<pre>const (
+    <span id="ORDER_CREATE_URL">ORDER_CREATE_URL</span> <a href="/pkg/builtin/#string">string</a> = &#34;https://api.mch.weixin.qq.com/pay/unifiedorder&#34;
+)</pre>
+			
+		
+		
+		
+			
+			
+			<h2 id="DecodeCloseOrderResp">func <a href="/src/target/payment.go?s=4615:4676#L186">DecodeCloseOrderResp</a>
+				<a class="permalink" href="#DecodeCloseOrderResp">&#xb6;</a>
+			</h2>
+			<pre>func DecodeCloseOrderResp(o *<a href="#WeChatOrder">WeChatOrder</a>, data []<a href="/pkg/builtin/#byte">byte</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+Decode close order response, do not populate any data to WeChatOrder
+return nil for success, otherwise failed
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="DecodeCreateOrderResp">func <a href="/src/target/payment.go?s=2782:2844#L115">DecodeCreateOrderResp</a>
+				<a class="permalink" href="#DecodeCreateOrderResp">&#xb6;</a>
+			</h2>
+			<pre>func DecodeCreateOrderResp(o *<a href="#WeChatOrder">WeChatOrder</a>, data []<a href="/pkg/builtin/#byte">byte</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+Decode order create response
+Populate WeChatOrder data automatically, if goes well
+otherwise return error
+Populate:
+</p>
+<pre>PrepayId
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="DecodePaymentResult">func <a href="/src/target/payment.go?s=4052:4112#L163">DecodePaymentResult</a>
+				<a class="permalink" href="#DecodePaymentResult">&#xb6;</a>
+			</h2>
+			<pre>func DecodePaymentResult(o *<a href="#WeChatOrder">WeChatOrder</a>, data []<a href="/pkg/builtin/#byte">byte</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+Decode payment result response
+Populate WeChatOrder data automatically, if goes well
+otherwise return error
+Populate:
+</p>
+<pre>TradeState,OrderNo,TransId,TradeType,TotalFee,Cash,Attach
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="DecodeQueryOrderResp">func <a href="/src/target/payment.go?s=3400:3461#L136">DecodeQueryOrderResp</a>
+				<a class="permalink" href="#DecodeQueryOrderResp">&#xb6;</a>
+			</h2>
+			<pre>func DecodeQueryOrderResp(o *<a href="#WeChatOrder">WeChatOrder</a>, data []<a href="/pkg/builtin/#byte">byte</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+Decode order query response
+Populate WeChatOrder data automatically, if goes well
+otherwise return error
+Populate:
+</p>
+<pre>TradeState,OrderNo,TransId,TradeType,TotalFee,Cash,Attach
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="DecodeQueryRefundResp">func <a href="/src/target/payment.go?s=5338:5400#L212">DecodeQueryRefundResp</a>
+				<a class="permalink" href="#DecodeQueryRefundResp">&#xb6;</a>
+			</h2>
+			<pre>func DecodeQueryRefundResp(o *<a href="#WeChatOrder">WeChatOrder</a>, data []<a href="/pkg/builtin/#byte">byte</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+Decode refund query response
+return nil for success, otherwise failed
+Populate:
+</p>
+<pre>TransId OrderNo Cash CashType Coupon Refund
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="DecodeRequestRefundResp">func <a href="/src/target/payment.go?s=5890:5954#L232">DecodeRequestRefundResp</a>
+				<a class="permalink" href="#DecodeRequestRefundResp">&#xb6;</a>
+			</h2>
+			<pre>func DecodeRequestRefundResp(o *<a href="#WeChatOrder">WeChatOrder</a>, data []<a href="/pkg/builtin/#byte">byte</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+Decode refund application response
+return nil for success, otherwise failed
+Populate:
+</p>
+<pre>TansId OrderNo Cash CashType Coupon Refund, TotalFee
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="EncodeCloseOrderXml">func <a href="/src/target/payment.go?s=1139:1196#L49">EncodeCloseOrderXml</a>
+				<a class="permalink" href="#EncodeCloseOrderXml">&#xb6;</a>
+			</h2>
+			<pre>func EncodeCloseOrderXml(o *<a href="#WeChatOrder">WeChatOrder</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+Generate close order xml according to close order document
+URL: PAYMENT_URL_DO
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="EncodeCreateOrderXml">func <a href="/src/target/payment.go?s=275:333#L10">EncodeCreateOrderXml</a>
+				<a class="permalink" href="#EncodeCreateOrderXml">&#xb6;</a>
+			</h2>
+			<pre>func EncodeCreateOrderXml(o *<a href="#WeChatOrder">WeChatOrder</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+Generate Create order xml according to create order document
+URL: PAYMENT_URL_CO
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="EncodeDownloadBillXml">func <a href="/src/target/payment.go?s=2064:2123#L87">EncodeDownloadBillXml</a>
+				<a class="permalink" href="#EncodeDownloadBillXml">&#xb6;</a>
+			</h2>
+			<pre>func EncodeDownloadBillXml(o *<a href="#WeChatOrder">WeChatOrder</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+Generate download bill xml according to bill download xml document
+URL: PAYMENT_URL_DB
+Notice not implement yet
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="EncodePaymentResultRespXml">func <a href="/src/target/payment.go?s=2206:2278#L93">EncodePaymentResultRespXml</a>
+				<a class="permalink" href="#EncodePaymentResultRespXml">&#xb6;</a>
+			</h2>
+			<pre>func EncodePaymentResultRespXml(code <a href="/pkg/builtin/#string">string</a>, msg <a href="/pkg/builtin/#string">string</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+Generate respond payment result  xml
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="EncodeQueryOrderXml">func <a href="/src/target/payment.go?s=848:905#L37">EncodeQueryOrderXml</a>
+				<a class="permalink" href="#EncodeQueryOrderXml">&#xb6;</a>
+			</h2>
+			<pre>func EncodeQueryOrderXml(o *<a href="#WeChatOrder">WeChatOrder</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+Generate query order xml according to query order document
+URL: PAYMENT_URL_QO
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="EncodeQueryRefundXml">func <a href="/src/target/payment.go?s=1734:1792#L73">EncodeQueryRefundXml</a>
+				<a class="permalink" href="#EncodeQueryRefundXml">&#xb6;</a>
+			</h2>
+			<pre>func EncodeQueryRefundXml(o *<a href="#WeChatOrder">WeChatOrder</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+Generate refund query xml according to refund query document
+URL: PAYMENT_URL_QRR
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="EncodeRequestRefundXml">func <a href="/src/target/payment.go?s=1436:1496#L61">EncodeRequestRefundXml</a>
+				<a class="permalink" href="#EncodeRequestRefundXml">&#xb6;</a>
+			</h2>
+			<pre>func EncodeRequestRefundXml(o *<a href="#WeChatOrder">WeChatOrder</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+Generate request refund xml according to request refund document
+URL: PAYMENT_URL_RR
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="Md5">func <a href="/src/target/util.go?s=494:521#L24">Md5</a>
+				<a class="permalink" href="#Md5">&#xb6;</a>
+			</h2>
+			<pre>func Md5(str <a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#string">string</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="R">func <a href="/src/target/util.go?s=201:221#L6">R</a>
+				<a class="permalink" href="#R">&#xb6;</a>
+			</h2>
+			<pre>func R(n <a href="/pkg/builtin/#int">int</a>) <a href="/pkg/builtin/#string">string</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="Sha1">func <a href="/src/target/util.go?s=384:412#L17">Sha1</a>
+				<a class="permalink" href="#Sha1">&#xb6;</a>
+			</h2>
+			<pre>func Sha1(str <a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#string">string</a></pre>
+			
+			
+			
+
+		
+		
+			
+			
+			<h2 id="AuthApi">type <a href="/src/target/auth.go?s=553:787#L27">AuthApi</a>
+				<a class="permalink" href="#AuthApi">&#xb6;</a>
+			</h2>
+			<p>
+Auth API interface
+</p>
+
+			<pre>type AuthApi interface {
+    <span class="comment">// Generate TOKEN URL</span>
+    TokenURL() <a href="/pkg/builtin/#string">string</a>
+
+    <span class="comment">// Handle Token URL response and return struct of WeChatConfig if succeeed</span>
+    <span class="comment">// Otherwise error is not nil</span>
+    HandleTokenAuthResp(d []<a href="/pkg/builtin/#byte">byte</a>) (*<a href="#WeChatConfig">WeChatConfig</a>, <a href="/pkg/builtin/#error">error</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="AuthError">type <a href="/src/target/auth.go?s=149:189#L5">AuthError</a>
+				<a class="permalink" href="#AuthError">&#xb6;</a>
+			</h2>
+			<p>
+Auth Error Message
+</p>
+
+			<pre>type AuthError struct {
+<span id="AuthError.Err"></span>    Err <a href="/pkg/builtin/#string">string</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="AuthError.Error">func (AuthError) <a href="/src/target/auth.go?s=239:274#L10">Error</a>
+					<a class="permalink" href="#AuthError.Error">&#xb6;</a>
+				</h3>
+				<pre>func (ae <a href="#AuthError">AuthError</a>) Error() <a href="/pkg/builtin/#string">string</a></pre>
+				<p>
+Auth Error Message implments error interface
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="AuthRespJson">type <a href="/src/target/auth.go?s=339:522#L17">AuthRespJson</a>
+				<a class="permalink" href="#AuthRespJson">&#xb6;</a>
+			</h2>
+			<p>
+WeChat auth response struct wrapper
+</p>
+
+			<pre>type AuthRespJson struct {
+<span id="AuthRespJson.ErrCode"></span>    ErrCode  <a href="/pkg/builtin/#int">int</a>    `json:&#34;errcode&#34;`
+<span id="AuthRespJson.ErrMsg"></span>    ErrMsg   <a href="/pkg/builtin/#string">string</a> `json:&#34;errmsg&#34;`
+<span id="AuthRespJson.AccToken"></span>    AccToken <a href="/pkg/builtin/#string">string</a> `json:&#34;access_token&#34;`
+<span id="AuthRespJson.Expires"></span>    Expires  <a href="/pkg/builtin/#int">int</a>    `json:&#34;expires_in&#34;`
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="GlwapiConfig">type <a href="/src/target/glwapi.go?s=543:698#L27">GlwapiConfig</a>
+				<a class="permalink" href="#GlwapiConfig">&#xb6;</a>
+			</h2>
+			
+			<pre>type GlwapiConfig struct {
+<span id="GlwapiConfig.WeChat"></span>    WeChat     *<a href="#WeChatConfig">WeChatConfig</a>
+<span id="GlwapiConfig.StateCheck"></span>    StateCheck <a href="/pkg/builtin/#bool">bool</a>
+<span id="GlwapiConfig.SignCheck"></span>    SignCheck  <a href="/pkg/builtin/#bool">bool</a>
+    <span class="comment">// contains filtered or unexported fields</span>
+}</pre>
+
+			
+
+			
+				
+				<pre>var <span id="G_API">G_API</span> *<a href="#GlwapiConfig">GlwapiConfig</a> = <a href="/pkg/builtin/#nil">nil</a></pre>
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="D">func <a href="/src/target/glwapi.go?s=70:93#L1">D</a>
+					<a class="permalink" href="#D">&#xb6;</a>
+				</h3>
+				<pre>func D() *<a href="#GlwapiConfig">GlwapiConfig</a></pre>
+				
+				
+				
+			
+
+			
+				
+				<h3 id="GlwapiConfig.CodeURL">func (*GlwapiConfig) <a href="/src/target/user_auth.go?s=1779:1855#L62">CodeURL</a>
+					<a class="permalink" href="#GlwapiConfig.CodeURL">&#xb6;</a>
+				</h3>
+				<pre>func (c *<a href="#GlwapiConfig">GlwapiConfig</a>) CodeURL(r <a href="/pkg/builtin/#string">string</a>, s <a href="/pkg/builtin/#string">string</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+Generate Code get URL for wechat auth first setp
+return  url state error
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.Destroy">func (*GlwapiConfig) <a href="/src/target/glwapi.go?s=1095:1133#L55">Destroy</a>
+					<a class="permalink" href="#GlwapiConfig.Destroy">&#xb6;</a>
+				</h3>
+				<pre>func (c *<a href="#GlwapiConfig">GlwapiConfig</a>) Destroy() <a href="/pkg/builtin/#bool">bool</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.GetJSAuth">func (*GlwapiConfig) <a href="/src/target/js.go?s=3068:3149#L133">GetJSAuth</a>
+					<a class="permalink" href="#GlwapiConfig.GetJSAuth">&#xb6;</a>
+				</h3>
+				<pre>func (c *<a href="#GlwapiConfig">GlwapiConfig</a>) GetJSAuth(ticket <a href="/pkg/builtin/#string">string</a>, url <a href="/pkg/builtin/#string">string</a>) (*<a href="#WeChatJS">WeChatJS</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+JsApi interface of GlwapiConfig implements
+To get ja auth object for js
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.GetJSTicketURL">func (*GlwapiConfig) <a href="/src/target/js.go?s=3325:3381#L141">GetJSTicketURL</a>
+					<a class="permalink" href="#GlwapiConfig.GetJSTicketURL">&#xb6;</a>
+				</h3>
+				<pre>func (c *<a href="#GlwapiConfig">GlwapiConfig</a>) GetJSTicketURL() (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+JsApi interface of GlwapiConfig implements
+Generate url that to get js api token
+return error for failed to generation
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.HandleCode">func (*GlwapiConfig) <a href="/src/target/user_auth.go?s=3187:3274#L106">HandleCode</a>
+					<a class="permalink" href="#GlwapiConfig.HandleCode">&#xb6;</a>
+				</h3>
+				<pre>func (c *<a href="#GlwapiConfig">GlwapiConfig</a>) HandleCode(code <a href="/pkg/builtin/#string">string</a>, state <a href="/pkg/builtin/#string">string</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.HandleCodeURLResponse">func (*GlwapiConfig) <a href="/src/target/user_auth.go?s=2963:3052#L99">HandleCodeURLResponse</a>
+					<a class="permalink" href="#GlwapiConfig.HandleCodeURLResponse">&#xb6;</a>
+				</h3>
+				<pre>func (c *<a href="#GlwapiConfig">GlwapiConfig</a>) HandleCodeURLResponse(r *<a href="/pkg/net/http/">http</a>.<a href="/pkg/net/http/#Request">Request</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+Extract code from wechat response and return code, state_code,error
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.HandleTicketResp">func (*GlwapiConfig) <a href="/src/target/js.go?s=3502:3570#L147">HandleTicketResp</a>
+					<a class="permalink" href="#GlwapiConfig.HandleTicketResp">&#xb6;</a>
+				</h3>
+				<pre>func (c *<a href="#GlwapiConfig">GlwapiConfig</a>) HandleTicketResp(d []<a href="/pkg/builtin/#byte">byte</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+JsApi interface of GlwapiConfig implements
+return error for failed extract
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.HandleTokenAuthResp">func (*GlwapiConfig) <a href="/src/target/auth.go?s=1517:1594#L65">HandleTokenAuthResp</a>
+					<a class="permalink" href="#GlwapiConfig.HandleTokenAuthResp">&#xb6;</a>
+				</h3>
+				<pre>func (g *<a href="#GlwapiConfig">GlwapiConfig</a>) HandleTokenAuthResp(d []<a href="/pkg/builtin/#byte">byte</a>) (*<a href="#WeChatConfig">WeChatConfig</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.HandleUserFTokenURLResponse">func (*GlwapiConfig) <a href="/src/target/user_auth.go?s=4270:4357#L149">HandleUserFTokenURLResponse</a>
+					<a class="permalink" href="#GlwapiConfig.HandleUserFTokenURLResponse">&#xb6;</a>
+				</h3>
+				<pre>func (c *<a href="#GlwapiConfig">GlwapiConfig</a>) HandleUserFTokenURLResponse(data []<a href="/pkg/builtin/#byte">byte</a>) (*<a href="#WeChatUser">WeChatUser</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+Extract refresh token from response data
+If extract succeed, Return user object
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.HandleUserTokenURLResponse">func (*GlwapiConfig) <a href="/src/target/user_auth.go?s=3497:3583#L119">HandleUserTokenURLResponse</a>
+					<a class="permalink" href="#GlwapiConfig.HandleUserTokenURLResponse">&#xb6;</a>
+				</h3>
+				<pre>func (c *<a href="#GlwapiConfig">GlwapiConfig</a>) HandleUserTokenURLResponse(data []<a href="/pkg/builtin/#byte">byte</a>) (*<a href="#WeChatUser">WeChatUser</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+Extract token from response data
+If extract succeed, Return user object
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.Init">func (*GlwapiConfig) <a href="/src/target/glwapi.go?s=864:955#L45">Init</a>
+					<a class="permalink" href="#GlwapiConfig.Init">&#xb6;</a>
+				</h3>
+				<pre>func (c *<a href="#GlwapiConfig">GlwapiConfig</a>) Init(appid <a href="/pkg/builtin/#string">string</a>, secret <a href="/pkg/builtin/#string">string</a>, mchid <a href="/pkg/builtin/#string">string</a>, apikey <a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#bool">bool</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.IsInit">func (*GlwapiConfig) <a href="/src/target/glwapi.go?s=700:737#L36">IsInit</a>
+					<a class="permalink" href="#GlwapiConfig.IsInit">&#xb6;</a>
+				</h3>
+				<pre>func (c *<a href="#GlwapiConfig">GlwapiConfig</a>) IsInit() <a href="/pkg/builtin/#bool">bool</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.RegEventListener">func (*GlwapiConfig) <a href="/src/target/glwapi.go?s=1154:1220#L60">RegEventListener</a>
+					<a class="permalink" href="#GlwapiConfig.RegEventListener">&#xb6;</a>
+				</h3>
+				<pre>func (c *<a href="#GlwapiConfig">GlwapiConfig</a>) RegEventListener(h *<a href="#GlwapiEventsNotifier">GlwapiEventsNotifier</a>)</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.String">func (*GlwapiConfig) <a href="/src/target/glwapi.go?s=758:797#L40">String</a>
+					<a class="permalink" href="#GlwapiConfig.String">&#xb6;</a>
+				</h3>
+				<pre>func (c *<a href="#GlwapiConfig">GlwapiConfig</a>) String() <a href="/pkg/builtin/#string">string</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.TokenURL">func (*GlwapiConfig) <a href="/src/target/auth.go?s=790:831#L37">TokenURL</a>
+					<a class="permalink" href="#GlwapiConfig.TokenURL">&#xb6;</a>
+				</h3>
+				<pre>func (g *<a href="#GlwapiConfig">GlwapiConfig</a>) TokenURL() <a href="/pkg/builtin/#string">string</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.UserFTokenURL">func (*GlwapiConfig) <a href="/src/target/user_auth.go?s=2610:2678#L90">UserFTokenURL</a>
+					<a class="permalink" href="#GlwapiConfig.UserFTokenURL">&#xb6;</a>
+				</h3>
+				<pre>func (c *<a href="#GlwapiConfig">GlwapiConfig</a>) UserFTokenURL(ftoken <a href="/pkg/builtin/#string">string</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="GlwapiConfig.UserTokenURL">func (*GlwapiConfig) <a href="/src/target/user_auth.go?s=2320:2385#L82">UserTokenURL</a>
+					<a class="permalink" href="#GlwapiConfig.UserTokenURL">&#xb6;</a>
+				</h3>
+				<pre>func (c *<a href="#GlwapiConfig">GlwapiConfig</a>) UserTokenURL(code <a href="/pkg/builtin/#string">string</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+Generate Token get URL for wechat auth 3th step
+return  url  error
+</p>
+<pre>If No code, will throw error
+</pre>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="GlwapiEvent">type <a href="/src/target/glwapi.go?s=412:475#L17">GlwapiEvent</a>
+				<a class="permalink" href="#GlwapiEvent">&#xb6;</a>
+			</h2>
+			
+			<pre>type GlwapiEvent interface {
+    Type() <a href="/pkg/builtin/#int">int</a>
+    Data() interface{}
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="GlwapiEventsNotifier">type <a href="/src/target/glwapi.go?s=477:540#L22">GlwapiEventsNotifier</a>
+				<a class="permalink" href="#GlwapiEventsNotifier">&#xb6;</a>
+			</h2>
+			
+			<pre>type GlwapiEventsNotifier interface {
+    OnEvent(e <a href="#GlwapiEvent">GlwapiEvent</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="GlwapiHandler">type <a href="/src/target/glwapi.go?s=243:410#L10">GlwapiHandler</a>
+				<a class="permalink" href="#GlwapiHandler">&#xb6;</a>
+			</h2>
+			
+			<pre>type GlwapiHandler interface {
+    Init(appid <a href="/pkg/builtin/#string">string</a>, secret <a href="/pkg/builtin/#string">string</a>, mchid <a href="/pkg/builtin/#string">string</a>, apikey <a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#bool">bool</a>
+    Destroy() <a href="/pkg/builtin/#bool">bool</a>
+
+    RegEventListener(h *<a href="#GlwapiEventsNotifier">GlwapiEventsNotifier</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="JSAuthError">type <a href="/src/target/js.go?s=168:212#L5">JSAuthError</a>
+				<a class="permalink" href="#JSAuthError">&#xb6;</a>
+			</h2>
+			<p>
+JS Auth Error Message
+</p>
+
+			<pre>type JSAuthError struct {
+<span id="JSAuthError.Err"></span>    Err <a href="/pkg/builtin/#string">string</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="JSAuthError.Error">func (*JSAuthError) <a href="/src/target/js.go?s=266:304#L10">Error</a>
+					<a class="permalink" href="#JSAuthError.Error">&#xb6;</a>
+				</h3>
+				<pre>func (js *<a href="#JSAuthError">JSAuthError</a>) Error() <a href="/pkg/builtin/#string">string</a></pre>
+				<p>
+JS Auth Error Message implements error interface
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="JsApi">type <a href="/src/target/js.go?s=1860:2307#L93">JsApi</a>
+				<a class="permalink" href="#JsApi">&#xb6;</a>
+			</h2>
+			<p>
+JS Auth API
+Before JS auth, you have get server token by Auth interface first
+Follow step to get JS Auth:
+</p>
+<pre>1.  GetJSTicketURL   to generate JS Ticket URL
+2.  HandleTicketResp  to extract ticket from  response
+3.  GetJSAuth to get JS Auth struct for web
+</pre>
+
+			<pre>type JsApi interface {
+
+    <span class="comment">// Generate URL for JS AUTH ticket</span>
+    <span class="comment">// return ticket url if anythings goes well</span>
+    <span class="comment">// otherwise error is not nil</span>
+    GetJSTicketURL() (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)
+
+    <span class="comment">// generat JS Auth struct for web</span>
+    <span class="comment">//  ticket:  js auth ticket</span>
+    <span class="comment">//  url   :  auth domain</span>
+    GetJSAuth(ticket <a href="/pkg/builtin/#string">string</a>, url <a href="/pkg/builtin/#string">string</a>) (*<a href="#WeChatJS">WeChatJS</a>, <a href="/pkg/builtin/#error">error</a>)
+
+    <span class="comment">// Extract ticket from response</span>
+    <span class="comment">// error is not nil if something wrong</span>
+    HandleTicketResp(d []<a href="/pkg/builtin/#byte">byte</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="OrderApi">type <a href="/src/target/payment.go?s=24760:24937#L961">OrderApi</a>
+				<a class="permalink" href="#OrderApi">&#xb6;</a>
+			</h2>
+			
+			<pre>type OrderApi interface {
+    CreateOrder1(user *<a href="#WeChatUser">WeChatUser</a>, orderId <a href="/pkg/builtin/#string">string</a>, desc <a href="/pkg/builtin/#string">string</a>, detail <a href="/pkg/builtin/#string">string</a>, additional <a href="/pkg/builtin/#string">string</a>, ip <a href="/pkg/builtin/#string">string</a>, url <a href="/pkg/builtin/#string">string</a>, fee <a href="/pkg/builtin/#int">int</a>) (*<a href="#WeChatOrder">WeChatOrder</a>, <a href="/pkg/builtin/#error">error</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="OrderRefund">type <a href="/src/target/payment.go?s=8114:8218#L335">OrderRefund</a>
+				<a class="permalink" href="#OrderRefund">&#xb6;</a>
+			</h2>
+			
+			<pre>type OrderRefund struct {
+<span id="OrderRefund.RefundId"></span>    RefundId     <a href="/pkg/builtin/#string">string</a>
+<span id="OrderRefund.Fee"></span>    Fee          <a href="/pkg/builtin/#int">int</a>
+<span id="OrderRefund.CouponRefund"></span>    CouponRefund []*<a href="#PaymentRefund">PaymentRefund</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="PaymentCoupon">type <a href="/src/target/payment.go?s=8220:8300#L341">PaymentCoupon</a>
+				<a class="permalink" href="#PaymentCoupon">&#xb6;</a>
+			</h2>
+			
+			<pre>type PaymentCoupon struct {
+<span id="PaymentCoupon.CouponType"></span>    CouponType <a href="/pkg/builtin/#string">string</a>
+<span id="PaymentCoupon.CouponId"></span>    CouponId   <a href="/pkg/builtin/#string">string</a>
+<span id="PaymentCoupon.CouponFee"></span>    CouponFee  <a href="/pkg/builtin/#int">int</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="PaymentRefund">type <a href="/src/target/payment.go?s=8302:8451#L347">PaymentRefund</a>
+				<a class="permalink" href="#PaymentRefund">&#xb6;</a>
+			</h2>
+			
+			<pre>type PaymentRefund struct {
+<span id="PaymentRefund.Fee"></span>    Fee      <a href="/pkg/builtin/#int">int</a>
+<span id="PaymentRefund.Id"></span>    Id       <a href="/pkg/builtin/#string">string</a>
+<span id="PaymentRefund.Account"></span>    Account  <a href="/pkg/builtin/#string">string</a>
+<span id="PaymentRefund.RAccount"></span>    RAccount <a href="/pkg/builtin/#string">string</a>
+<span id="PaymentRefund.RTime"></span>    RTime    *<a href="/pkg/time/">time</a>.<a href="/pkg/time/#Time">Time</a>
+<span id="PaymentRefund.Status"></span>    Status   <a href="/pkg/builtin/#string">string</a>
+<span id="PaymentRefund.Channel"></span>    Channel  <a href="/pkg/builtin/#string">string</a>
+<span id="PaymentRefund.Count"></span>    Count    <a href="/pkg/builtin/#int">int</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="UserAuthApi">type <a href="/src/target/user_auth.go?s=632:1694#L26">UserAuthApi</a>
+				<a class="permalink" href="#UserAuthApi">&#xb6;</a>
+			</h2>
+			<p>
+Related User Auth API interface:
+</p>
+<pre>Whole auth process follow below sequence:
+1.  Code URL
+2.  HandleCodeURLResponse
+3.  TokenURL
+4.  HandleTokenURLResponse
+5.  TokenURL
+6.  HandleFTokenURLResponse
+</pre>
+
+			<pre>type UserAuthApi interface {
+
+    <span class="comment">//Generate Code get URL for wechat auth first step</span>
+    <span class="comment">//return  url state error</span>
+    <span class="comment">//If redirect url, will throw error</span>
+    <span class="comment">//If no state, will autmatically generate state info</span>
+    CodeURL(r <a href="/pkg/builtin/#string">string</a>, s <a href="/pkg/builtin/#string">string</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)
+
+    <span class="comment">// Generate Token get URL for wechat auth 3th step</span>
+    <span class="comment">//return  url  error</span>
+    <span class="comment">//    If No code, will throw error</span>
+    UserTokenURL(code <a href="/pkg/builtin/#string">string</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)
+
+    <span class="comment">//Generate refresh taoken URL</span>
+    UserFTokenURL(ftoken <a href="/pkg/builtin/#string">string</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)
+
+    <span class="comment">//Extract code from wechat response and return code, state_code,error</span>
+    HandleCodeURLResponse(r *<a href="/pkg/net/http/">http</a>.<a href="/pkg/net/http/#Request">Request</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)
+
+    <span class="comment">//Check code and state code legal or not</span>
+    HandleCode(code <a href="/pkg/builtin/#string">string</a>, state <a href="/pkg/builtin/#string">string</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)
+
+    <span class="comment">//Extract token from response data</span>
+    <span class="comment">//If extract succeed, Return user object</span>
+    HandleUserTokenURLResponse(data []<a href="/pkg/builtin/#byte">byte</a>) (*<a href="#WeChatUser">WeChatUser</a>, <a href="/pkg/builtin/#error">error</a>)
+
+    <span class="comment">//Extract refresh token from response data</span>
+    <span class="comment">//If extract succeed, Return user object</span>
+    HandleUserFTokenURLResponse(data []<a href="/pkg/builtin/#byte">byte</a>) (*<a href="#WeChatUser">WeChatUser</a>, <a href="/pkg/builtin/#error">error</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="UserAuthError">type <a href="/src/target/user_auth.go?s=254:297#L9">UserAuthError</a>
+				<a class="permalink" href="#UserAuthError">&#xb6;</a>
+			</h2>
+			<p>
+Error message for auth
+</p>
+
+			<pre>type UserAuthError struct {
+<span id="UserAuthError.Err"></span>    Err <a href="/pkg/builtin/#string">string</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="UserAuthError.Error">func (*UserAuthError) <a href="/src/target/user_auth.go?s=328:368#L14">Error</a>
+					<a class="permalink" href="#UserAuthError.Error">&#xb6;</a>
+				</h3>
+				<pre>func (err *<a href="#UserAuthError">UserAuthError</a>) Error() <a href="/pkg/builtin/#string">string</a></pre>
+				<p>
+error interface implement
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="WeChatConfig">type <a href="/src/target/wechat.go?s=152:356#L7">WeChatConfig</a>
+				<a class="permalink" href="#WeChatConfig">&#xb6;</a>
+			</h2>
+			<p>
+WeChat config
+</p>
+
+			<pre>type WeChatConfig struct {
+<span id="WeChatConfig.AppId"></span>    AppId     <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatConfig.Secret"></span>    Secret    <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatConfig.Token"></span>    Token     <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatConfig.Expires"></span>    Expires   <a href="/pkg/builtin/#int">int</a>
+<span id="WeChatConfig.MchId"></span>    MchId     <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatConfig.MchApiKey"></span>    MchApiKey <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatConfig.Rtime"></span>    Rtime     *<a href="/pkg/time/">time</a>.<a href="/pkg/time/#Time">Time</a>
+<span id="WeChatConfig.JSToken"></span>    JSToken   <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatConfig.JSRtime"></span>    JSRtime   *<a href="/pkg/time/">time</a>.<a href="/pkg/time/#Time">Time</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="WeChatConfig.CreateOrder1">func (*WeChatConfig) <a href="/src/target/payment.go?s=24939:25111#L965">CreateOrder1</a>
+					<a class="permalink" href="#WeChatConfig.CreateOrder1">&#xb6;</a>
+				</h3>
+				<pre>func (w *<a href="#WeChatConfig">WeChatConfig</a>) CreateOrder1(user *<a href="#WeChatUser">WeChatUser</a>, orderId <a href="/pkg/builtin/#string">string</a>, desc <a href="/pkg/builtin/#string">string</a>, detail <a href="/pkg/builtin/#string">string</a>, additional <a href="/pkg/builtin/#string">string</a>, ip <a href="/pkg/builtin/#string">string</a>, url <a href="/pkg/builtin/#string">string</a>, fee <a href="/pkg/builtin/#int">int</a>) (*<a href="#WeChatOrder">WeChatOrder</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="WeChatConfig.GetJSAuth">func (*WeChatConfig) <a href="/src/target/js.go?s=2387:2468#L112">GetJSAuth</a>
+					<a class="permalink" href="#WeChatConfig.GetJSAuth">&#xb6;</a>
+				</h3>
+				<pre>func (w *<a href="#WeChatConfig">WeChatConfig</a>) GetJSAuth(ticket <a href="/pkg/builtin/#string">string</a>, url <a href="/pkg/builtin/#string">string</a>) (*<a href="#WeChatJS">WeChatJS</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+JsApi interface of WeChatConfig implements
+To get ja auth object for js
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="WeChatConfig.GetJSTicketURL">func (*WeChatConfig) <a href="/src/target/js.go?s=2706:2762#L121">GetJSTicketURL</a>
+					<a class="permalink" href="#WeChatConfig.GetJSTicketURL">&#xb6;</a>
+				</h3>
+				<pre>func (w *<a href="#WeChatConfig">WeChatConfig</a>) GetJSTicketURL() (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+JsApi interface of WeChatConfig implements
+Generate url that to get js api token
+return error for failed to generation
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="WeChatConfig.HandleTokenAuthResp">func (*WeChatConfig) <a href="/src/target/auth.go?s=1044:1121#L47">HandleTokenAuthResp</a>
+					<a class="permalink" href="#WeChatConfig.HandleTokenAuthResp">&#xb6;</a>
+				</h3>
+				<pre>func (w *<a href="#WeChatConfig">WeChatConfig</a>) HandleTokenAuthResp(d []<a href="/pkg/builtin/#byte">byte</a>) (*<a href="#WeChatConfig">WeChatConfig</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="WeChatConfig.IsExpired">func (*WeChatConfig) <a href="/src/target/auth.go?s=1642:1681#L71">IsExpired</a>
+					<a class="permalink" href="#WeChatConfig.IsExpired">&#xb6;</a>
+				</h3>
+				<pre>func (w *<a href="#WeChatConfig">WeChatConfig</a>) IsExpired() <a href="/pkg/builtin/#bool">bool</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="WeChatConfig.IsGotJSToken">func (*WeChatConfig) <a href="/src/target/wechat.go?s=694:737#L30">IsGotJSToken</a>
+					<a class="permalink" href="#WeChatConfig.IsGotJSToken">&#xb6;</a>
+				</h3>
+				<pre>func (w *<a href="#WeChatConfig">WeChatConfig</a>) IsGotJSToken() <a href="/pkg/builtin/#bool">bool</a></pre>
+				<p>
+check JS token available or not
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="WeChatConfig.IsPaymentValid">func (*WeChatConfig) <a href="/src/target/wechat.go?s=551:596#L25">IsPaymentValid</a>
+					<a class="permalink" href="#WeChatConfig.IsPaymentValid">&#xb6;</a>
+				</h3>
+				<pre>func (w *<a href="#WeChatConfig">WeChatConfig</a>) IsPaymentValid() <a href="/pkg/builtin/#bool">bool</a></pre>
+				<p>
+Check wechat config payment configuration available or not
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="WeChatConfig.IsTokened">func (*WeChatConfig) <a href="/src/target/auth.go?s=1720:1759#L76">IsTokened</a>
+					<a class="permalink" href="#WeChatConfig.IsTokened">&#xb6;</a>
+				</h3>
+				<pre>func (w *<a href="#WeChatConfig">WeChatConfig</a>) IsTokened() <a href="/pkg/builtin/#bool">bool</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="WeChatConfig.IsValid">func (*WeChatConfig) <a href="/src/target/wechat.go?s=406:444#L20">IsValid</a>
+					<a class="permalink" href="#WeChatConfig.IsValid">&#xb6;</a>
+				</h3>
+				<pre>func (w *<a href="#WeChatConfig">WeChatConfig</a>) IsValid() <a href="/pkg/builtin/#bool">bool</a></pre>
+				<p>
+Check Wechat appid or secret available or not
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="WeChatConfig.String">func (*WeChatConfig) <a href="/src/target/wechat.go?s=795:834#L35">String</a>
+					<a class="permalink" href="#WeChatConfig.String">&#xb6;</a>
+				</h3>
+				<pre>func (w *<a href="#WeChatConfig">WeChatConfig</a>) String() <a href="/pkg/builtin/#string">string</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="WeChatConfig.TokenURL">func (*WeChatConfig) <a href="/src/target/auth.go?s=865:906#L41">TokenURL</a>
+					<a class="permalink" href="#WeChatConfig.TokenURL">&#xb6;</a>
+				</h3>
+				<pre>func (w *<a href="#WeChatConfig">WeChatConfig</a>) TokenURL() <a href="/pkg/builtin/#string">string</a></pre>
+				
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="WeChatJS">type <a href="/src/target/js.go?s=355:659#L16">WeChatJS</a>
+				<a class="permalink" href="#WeChatJS">&#xb6;</a>
+			</h2>
+			<p>
+JS struct
+For Web AUTH
+</p>
+
+			<pre>type WeChatJS struct {
+
+    <span class="comment">//WeChat configuration</span>
+<span id="WeChatJS.WeChat"></span>    WeChat *<a href="#WeChatConfig">WeChatConfig</a>
+
+    <span class="comment">//nonce</span>
+<span id="WeChatJS.Nonce"></span>    Nonce <a href="/pkg/builtin/#string">string</a>
+
+    <span class="comment">//Signature</span>
+<span id="WeChatJS.Sign"></span>    Sign <a href="/pkg/builtin/#string">string</a>
+
+    <span class="comment">//Timestamp of string</span>
+<span id="WeChatJS.Ts"></span>    Ts <a href="/pkg/builtin/#string">string</a>
+
+    <span class="comment">//Timestamp of time</span>
+<span id="WeChatJS.Stamp"></span>    Stamp <a href="/pkg/time/">time</a>.<a href="/pkg/time/#Time">Time</a>
+
+    <span class="comment">//token of js ticket</span>
+<span id="WeChatJS.Ticket"></span>    Ticket <a href="/pkg/builtin/#string">string</a>
+
+    <span class="comment">//Auth url from client</span>
+<span id="WeChatJS.U"></span>    U <a href="/pkg/builtin/#string">string</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="WeChatJS.N">func (*WeChatJS) <a href="/src/target/js.go?s=1076:1107#L55">N</a>
+					<a class="permalink" href="#WeChatJS.N">&#xb6;</a>
+				</h3>
+				<pre>func (js *<a href="#WeChatJS">WeChatJS</a>) N() <a href="/pkg/builtin/#string">string</a></pre>
+				<p>
+Get JS Auth nonce data
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="WeChatJS.S">func (*WeChatJS) <a href="/src/target/js.go?s=1202:1233#L64">S</a>
+					<a class="permalink" href="#WeChatJS.S">&#xb6;</a>
+				</h3>
+				<pre>func (js *<a href="#WeChatJS">WeChatJS</a>) S() <a href="/pkg/builtin/#string">string</a></pre>
+				<p>
+Get JS Auth sign data
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="WeChatJS.String">func (*WeChatJS) <a href="/src/target/js.go?s=680:716#L41">String</a>
+					<a class="permalink" href="#WeChatJS.String">&#xb6;</a>
+				</h3>
+				<pre>func (js *<a href="#WeChatJS">WeChatJS</a>) String() <a href="/pkg/builtin/#string">string</a></pre>
+				<p>
+String interface
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="WeChatJS.T">func (*WeChatJS) <a href="/src/target/js.go?s=1453:1484#L78">T</a>
+					<a class="permalink" href="#WeChatJS.T">&#xb6;</a>
+				</h3>
+				<pre>func (js *<a href="#WeChatJS">WeChatJS</a>) T() <a href="/pkg/builtin/#string">string</a></pre>
+				<p>
+Get JS timestamp data
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="WeChatOrder">type <a href="/src/target/payment.go?s=8453:8914#L358">WeChatOrder</a>
+				<a class="permalink" href="#WeChatOrder">&#xb6;</a>
+			</h2>
+			
+			<pre>type WeChatOrder struct {
+<span id="WeChatOrder.WeChat"></span>    WeChat      *<a href="#WeChatConfig">WeChatConfig</a>
+<span id="WeChatOrder.User"></span>    User        *<a href="#WeChatUser">WeChatUser</a>
+<span id="WeChatOrder.Device"></span>    Device      <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatOrder.Body"></span>    Body        <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatOrder.Detail"></span>    Detail      <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatOrder.Attach"></span>    Attach      <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatOrder.OrderNo"></span>    OrderNo     <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatOrder.FeeType"></span>    FeeType     <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatOrder.TotalFee"></span>    TotalFee    <a href="/pkg/builtin/#int">int</a>
+<span id="WeChatOrder.Cash"></span>    Cash        <a href="/pkg/builtin/#int">int</a>
+<span id="WeChatOrder.CashType"></span>    CashType    <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatOrder.Ip"></span>    Ip          <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatOrder.Ts"></span>    Ts          *<a href="/pkg/time/">time</a>.<a href="/pkg/time/#Time">Time</a>
+<span id="WeChatOrder.Expires"></span>    Expires     *<a href="/pkg/time/">time</a>.<a href="/pkg/time/#Time">Time</a>
+<span id="WeChatOrder.NotifiedUrl"></span>    NotifiedUrl <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatOrder.TradeType"></span>    TradeType   <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatOrder.Pid"></span>    Pid         <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatOrder.Limit"></span>    Limit       <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatOrder.PrepayId"></span>    PrepayId    <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatOrder.TransId"></span>    TransId     <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatOrder.TradeState"></span>    TradeState  <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatOrder.RefundFee"></span>    RefundFee   <a href="/pkg/builtin/#int">int</a>
+<span id="WeChatOrder.EndTime"></span>    EndTime     *<a href="/pkg/time/">time</a>.<a href="/pkg/time/#Time">Time</a>
+<span id="WeChatOrder.Coupon"></span>    Coupon      []*<a href="#PaymentCoupon">PaymentCoupon</a>
+<span id="WeChatOrder.Refund"></span>    Refund      *<a href="#OrderRefund">OrderRefund</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="WeChatPaymentError">type <a href="/src/target/payment.go?s=7799:7845#L313">WeChatPaymentError</a>
+				<a class="permalink" href="#WeChatPaymentError">&#xb6;</a>
+			</h2>
+			
+			<pre>type WeChatPaymentError struct {
+<span id="WeChatPaymentError.Err"></span>    Err <a href="/pkg/builtin/#string">string</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="WeChatPaymentError.Error">func (*WeChatPaymentError) <a href="/src/target/payment.go?s=7847:7891#L317">Error</a>
+					<a class="permalink" href="#WeChatPaymentError.Error">&#xb6;</a>
+				</h3>
+				<pre>func (p *<a href="#WeChatPaymentError">WeChatPaymentError</a>) Error() <a href="/pkg/builtin/#string">string</a></pre>
+				
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="WeChatSec">type <a href="/src/target/wechat.go?s=63:134#L1">WeChatSec</a>
+				<a class="permalink" href="#WeChatSec">&#xb6;</a>
+			</h2>
+			<p>
+Wechat security
+</p>
+
+			<pre>type WeChatSec struct {
+<span id="WeChatSec.Nonce"></span>    Nonce    <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatSec.Sign"></span>    Sign     <a href="/pkg/builtin/#string">string</a>
+<span id="WeChatSec.SignType"></span>    SignType <a href="/pkg/builtin/#string">string</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="WeChatUser">type <a href="/src/target/wechat.go?s=977:1291#L41">WeChatUser</a>
+				<a class="permalink" href="#WeChatUser">&#xb6;</a>
+			</h2>
+			
+			<pre>type WeChatUser struct {
+<span id="WeChatUser.Token"></span>    Token   <a href="/pkg/builtin/#string">string</a> `json:&#34;access_token&#34;`
+<span id="WeChatUser.Expires"></span>    Expires <a href="/pkg/builtin/#int">int</a>    `json:&#34;expires_in&#34;`
+<span id="WeChatUser.FToken"></span>    FToken  <a href="/pkg/builtin/#string">string</a> `json:&#34;refresh_token&#34;`
+<span id="WeChatUser.OpenId"></span>    OpenId  <a href="/pkg/builtin/#string">string</a> `json:&#34;openid&#34;`
+<span id="WeChatUser.Scope"></span>    Scope   <a href="/pkg/builtin/#string">string</a> `json:&#34;scope&#34;`
+<span id="WeChatUser.Err"></span>    Err     <a href="/pkg/builtin/#int">int</a>    `json:&#34;errcode&#34;`
+<span id="WeChatUser.P"></span>    P       *<a href="#WeChatUserP">WeChatUserP</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="WeChatUser.String">func (*WeChatUser) <a href="/src/target/wechat.go?s=1294:1331#L52">String</a>
+					<a class="permalink" href="#WeChatUser.String">&#xb6;</a>
+				</h3>
+				<pre>func (u *<a href="#WeChatUser">WeChatUser</a>) String() <a href="/pkg/builtin/#string">string</a></pre>
+				
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="WeChatUserP">type <a href="/src/target/wechat.go?s=1446:1848#L57">WeChatUserP</a>
+				<a class="permalink" href="#WeChatUserP">&#xb6;</a>
+			</h2>
+			
+			<pre>type WeChatUserP struct {
+<span id="WeChatUserP.OpenId"></span>    OpenId   <a href="/pkg/builtin/#string">string</a> `json:&#34;openid&#34;`
+<span id="WeChatUserP.NickName"></span>    NickName <a href="/pkg/builtin/#string">string</a> `json:&#34;nickname&#34;`
+<span id="WeChatUserP.Sex"></span>    Sex      <a href="/pkg/builtin/#string">string</a> `json:&#34;sex&#34;`
+<span id="WeChatUserP.Province"></span>    Province <a href="/pkg/builtin/#string">string</a> `json:&#34;province&#34;`
+<span id="WeChatUserP.City"></span>    City     <a href="/pkg/builtin/#string">string</a> `json:&#34;city&#34;`
+<span id="WeChatUserP.Country"></span>    Country  <a href="/pkg/builtin/#string">string</a> `json:&#34;country&#34;`
+<span id="WeChatUserP.ImgUrl"></span>    ImgUrl   <a href="/pkg/builtin/#string">string</a> `json:&#34;headimgurl&#34;`
+<span id="WeChatUserP.UnionId"></span>    UnionId  <a href="/pkg/builtin/#string">string</a> `json:&#34;unionid&#34;`
+<span id="WeChatUserP.Err"></span>    Err      <a href="/pkg/builtin/#int">int</a>    `json:&#34;errcode&#34;`
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="XmlD">type <a href="/src/target/type.go?s=45:134#L1">XmlD</a>
+				<a class="permalink" href="#XmlD">&#xb6;</a>
+			</h2>
+			
+			<pre>type XmlD struct {
+<span id="XmlD.Key"></span>    Key        <a href="/pkg/builtin/#string">string</a>
+<span id="XmlD.Val"></span>    Val        <a href="/pkg/builtin/#string">string</a>
+<span id="XmlD.Opt"></span>    Opt        <a href="/pkg/builtin/#bool">bool</a>
+<span id="XmlD.IsCDATA"></span>    IsCDATA    <a href="/pkg/builtin/#bool">bool</a>
+<span id="XmlD.ExludeSign"></span>    ExludeSign <a href="/pkg/builtin/#bool">bool</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="XmlD.MarshalXML">func (XmlD) <a href="/src/target/type.go?s=138:208#L8">MarshalXML</a>
+					<a class="permalink" href="#XmlD.MarshalXML">&#xb6;</a>
+				</h3>
+				<pre>func (x <a href="#XmlD">XmlD</a>) MarshalXML(e *<a href="/pkg/encoding/xml/">xml</a>.<a href="/pkg/encoding/xml/#Encoder">Encoder</a>, start <a href="/pkg/encoding/xml/">xml</a>.<a href="/pkg/encoding/xml/#StartElement">StartElement</a>) <a href="/pkg/builtin/#error">error</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="XmlD.UnmarshalXML">func (*XmlD) <a href="/src/target/type.go?s=570:645#L24">UnmarshalXML</a>
+					<a class="permalink" href="#XmlD.UnmarshalXML">&#xb6;</a>
+				</h3>
+				<pre>func (x *<a href="#XmlD">XmlD</a>) UnmarshalXML(d *<a href="/pkg/encoding/xml/">xml</a>.<a href="/pkg/encoding/xml/#Decoder">Decoder</a>, start <a href="/pkg/encoding/xml/">xml</a>.<a href="/pkg/encoding/xml/#StartElement">StartElement</a>) <a href="/pkg/builtin/#error">error</a></pre>
+				
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="XmlDecode">type <a href="/src/target/payment.go?s=8009:8111#L328">XmlDecode</a>
+				<a class="permalink" href="#XmlDecode">&#xb6;</a>
+			</h2>
+			
+			<pre>type XmlDecode interface {
+
+    <span class="comment">// Extract data from response</span>
+    Decode(xml []<a href="/pkg/builtin/#byte">byte</a>) (interface{}, <a href="/pkg/builtin/#error">error</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="XmlEncode">type <a href="/src/target/payment.go?s=7912:8007#L322">XmlEncode</a>
+				<a class="permalink" href="#XmlEncode">&#xb6;</a>
+			</h2>
+			
+			<pre>type XmlEncode interface {
+
+    <span class="comment">// Generate XML according wechat spec</span>
+    Encode() (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+	
+
+	
+
+
+
+
+

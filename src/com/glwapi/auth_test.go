@@ -1,4 +1,3 @@
-
 package glwapi_test
 
 
@@ -8,75 +7,59 @@ import (
 	"encoding/json"
 )
 
+func TestAuthToken(t * testing.T) {
 
-func TestCodeUrl(t * testing.T) {
-	var g * glwapi.GlwapiConfig = glwapi.D()
-
-	u, s, e := g.CodeURL("", "")
-	if e == nil {
-		t.Errorf("Should not genertate url without redirect url")
+	g := glwapi.D()
+	g.WeChat.AppId = "1234"
+	g.WeChat.Secret = "1234"
+	str := g.TokenURL()
+	t.Logf("%s", str)
+	t.Logf("%s", "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=1234&secret=1234")
+	if str =="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=1234&secret=1234" {
+		t.Logf("TEST AuthTokenURL ok")
 	} else {
-		t.Logf(e.Error())
-	}
-
-	u, s, e = g.CodeURL("http://aa.bb.cc/a?a=sg&c=11", "a")
-	if e != nil {
-		t.Errorf(e.Error())
-	}
-	if s != "a" {
-		t.Errorf("state code mismatch")
-	}
-	t.Logf("%s", u)
-	t.Logf("%s", s)
-
-}
-
-
-func TestTokenURL(t * testing.T) {
-	var g * glwapi.GlwapiConfig = glwapi.D()
-	u, e := g.TokenURL("")
-	if e == nil {
-		t.Errorf("Should not genertate url without code")
-	} else {
-		t.Logf(e.Error())
-	}
-
-	t.Logf(u)
-
-	u, e = g.TokenURL("1234")
-	if e != nil {
-		t.Errorf(e.Error())
-	} else {
-		t.Logf(u)
+		t.Errorf(" url mismatch")
 	}
 }
 
 
-func TestHandleTokenURLResponse(t * testing.T) {
-	var g * glwapi.GlwapiConfig = glwapi.D()
-	var u * glwapi.WeChatUser = &glwapi.WeChatUser{"a", 2, "c", "d", "e", 0, nil}
-	b, e :=	json.Marshal(u)
-	if e == nil {
-		a, e1 := g.HandleTokenURLResponse(b)
-		if e1 != nil {
-			t.Errorf(e1.Error())
-		} else {
-			t.Logf("Test ok " + a.String())
-		}
-	} else {
-		t.Errorf(e.Error())
-	}
+type TokenJson struct {
+	A   string   `json:"access_token"`
+	E   int      `json:"expires_in"`
+	EM  string   `json:"errmsg"`
+	ER  int      `json:"errcode"`
+}
 
-	u = &glwapi.WeChatUser{"a", 2, "c", "d", "e", 11, nil}
-	b, e =	json.Marshal(u)
+func TestAuthTokenResp(t * testing.T) {
+	g := glwapi.D()
+	var tj = TokenJson{A: "aaa", E:7200, ER: 40029}
+	b, e1 := json.Marshal(&tj)
+	t.Logf("%s", string(b[:len(b)]))
+	if e1 != nil {
+		t.Errorf(" prepare test data failed" + e1.Error())
+		return
+	}
+	w, e := g.HandleTokenAuthResp(b)
 	if e == nil {
-		_, e1 := g.HandleTokenURLResponse(b)
-		if e1 != nil {
-			t.Logf(e1.Error())
+		t.Errorf(" should not success")
+		return
+	}
+	
+	tj = TokenJson{A: "aaa", E:7200}
+	b, e1 = json.Marshal(&tj)
+	if e1 != nil {
+		t.Errorf(" prepare test data failed" + e1.Error())
+		return
+	}
+	w, e = g.HandleTokenAuthResp(b)
+	if e == nil {
+		if w.Token == "aaa" {
+			t.Logf("TEST  ok")
 		} else {
-			t.Errorf("Test failed should get error ")
+			t.Errorf("token extract failed")
+			return
 		}
 	} else {
-		t.Errorf(e.Error())
+		t.Errorf("failed:" + e.Error())
 	}
 }

@@ -39,7 +39,7 @@ func (w * WeChatConfig) IsPaymentValid() bool {
 //check JS token available or not
 func (w * WeChatConfig) IsGotJSToken() bool {
 	//FIXME check expired time
-	return w.JSToken == ""
+	return !(w.JSToken == "")
 }
 
 func (w * WeChatConfig) String() string {

@@ -124,10 +124,10 @@ func EncodePaymentResultRespXml(code string, msg string) (string, error) {
 //      PrepayId
 func DecodeCreateOrderResp(o * WeChatOrder, data []byte) error {
 	var resp * xmlCreateOrderResp = &xmlCreateOrderResp{}
-	fmt.Printf("%s\n", data)
+	fmt.Printf(" Create Order Resp :\n%s\n", data)
 	if _, e := resp.Decode(data); e == nil {
-		if resp.Code != CO_SUCCESS {
-			return pe("Decode Order Failed:" + resp.Code + "  msg:" + resp.Msg)
+		if resp.Code != CO_SUCCESS || resp.ECode != ""{
+			return pe("Decode Order Failed:" + resp.Code + "  msg:" + resp.Msg+"  err_code:"+resp.ECode)
 		}
 		o.PrepayId = resp.PrepayId
 		//FIXME check sign
@@ -151,8 +151,8 @@ func DecodeQueryOrderResp(o * WeChatOrder, data []byte) error {
 	if _, e := oo.Decode(data); e != nil {
 		return e
 	} else {
-		if oo.RCode.Val != QO_RES_SUCCESS {
-			return pe("Query Order filed : " + oo.RCode.Val)
+		if oo.RCode.Val != QO_RES_SUCCESS || oo.ErrCode.Val !="" {
+			return pe("Query Order filed : " + oo.RCode.Val+"  errCode:"+ oo.ErrCode.Val)
 		}
 		o.TradeState = oo.TradeState.Val
 		if o.TradeState == TRADE_STATE_SUCCESS {
@@ -178,8 +178,8 @@ func DecodePaymentResult(o * WeChatOrder, data []byte) error {
 	if _, e := oo.Decode(data); e != nil {
 		return e
 	} else {
-		if oo.RCode.Val != QO_RES_SUCCESS {
-			return pe("Query Order filed : " + oo.RCode.Val)
+		if oo.RCode.Val != QO_RES_SUCCESS || oo.ErrCode.Val !=""  {
+			return pe("Query Order filed : " + oo.RCode.Val+"  errCode:"+ oo.ErrCode.Val)
 		}
 		o.TradeState = oo.TradeState.Val
 		if o.TradeState == TRADE_STATE_SUCCESS {
@@ -205,8 +205,8 @@ func DecodeCloseOrderResp(o * WeChatOrder, data []byte) error {
 			ResMsg   string `xml:"result_msg"`
 			}{}
 	if err := xml.Unmarshal(data, &s); err == nil {
-		if s.Rcode != DO_RES_SUCCESS {
-			return pe("Close Order failed:" + s.Rcode)
+		if s.Rcode != DO_RES_SUCCESS || s.ResCode !=""  {
+			return pe("Close Order failed:" + s.Rcode+"  errCode:"+ s.ResCode)
 		}
 		return nil
 	} else {
@@ -244,7 +244,7 @@ func DecodeRequestRefundResp(o * WeChatOrder, data []byte) error {
 	if _, e := rr.Decode(data); e != nil {
 		return e
 	} else {
-		if rr.RCode.Val == RR_RES_SUCCESS {
+		if rr.RCode.Val == RR_RES_SUCCESS  {
 			populate(o, xmlOrderData(rr))
 			if o.Refund == nil {
 				o.Refund = &OrderRefund{}
@@ -342,6 +342,16 @@ type XmlDecode interface {
 }
 
 
+type JSOrderSign struct {
+	AppId	string
+	TS	string
+	N	string
+	P	string
+	S	string
+	ST	string
+}
+
+
 type OrderRefund  struct {
 	RefundId        string
 	Fee             int
@@ -394,6 +404,21 @@ type WeChatOrder struct {
 }
 
 
+func (o * WeChatOrder) JsSign() * JSOrderSign {
+	var  jss *JSOrderSign = new(JSOrderSign)
+	jss.AppId = o.WeChat.AppId
+	jss.N     = R(32)
+	jss.TS    = fmt.Sprintf("%d", time.Now().Unix())
+	jss.ST     = "MD5"
+	jss.P     = "prepay_id=" + o.PrepayId
+	sinStr := ("appId=" +jss.AppId +"&nonceStr="+jss.N +"&package="+jss.P+"&signType="+jss.ST+"&timeStamp="+jss.TS+"&key="+o.WeChat.MchApiKey)
+	jss.S     = strings.ToUpper(Md5(sinStr))
+	fmt.Printf("SignStr: %s\n", sinStr)
+	fmt.Printf("Sign: %s\n", jss.S)
+	return jss
+}
+
+
 
 
 
@@ -442,7 +467,7 @@ func (o * WeChatOrder) qorder() * xmlQueryOrder {
 		Nonce    :  XmlD{Key : "nonce_str",        Val : R(32)                            },
 		Sign     :  XmlD{Key : "sign",             Val : "",		 ExludeSign : true},
 		SignType :  XmlD{Key : "sign_type",        Val : "MD5",          Opt : true       },
-		TransId  :  XmlD{Key : "transaction_id",   Val : o.OrderNo,                       },
+		TransId  :  XmlD{Key : "out_trade_no",     Val : o.OrderNo,                       },
 	}
 
 	return &x;

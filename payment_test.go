@@ -159,7 +159,6 @@ func TestDecodePaymentResult(t * testing.T) {
       	testD +="<out_trade_no><![CDATA[1415757673]]></out_trade_no>"
       	testD +="<attach><![CDATA[订单额外描述]]></attach>"
       	testD +="<time_end><![CDATA[20141111170043]]></time_end>"
-      	testD +="<trade_state><![CDATA[SUCCESS]]></trade_state>"
    	testD +="<coupon_fee_0>0</coupon_fee_0> "
    	testD +="<coupon_fee_1><![CDATA[1]]></coupon_fee_1> "
    	testD +="<coupon_type_1>CASH</coupon_type_1> "
@@ -167,7 +166,7 @@ func TestDecodePaymentResult(t * testing.T) {
 	t.Logf("%s", testD)
 	e := glwapi.DecodePaymentResult(&o, []byte(testD))
 	if e == nil {
-		if o.OrderNo != "1415757673" || o.TradeState != glwapi.TRADE_STATE_SUCCESS  || len(o.Coupon) != 2 || o.Coupon[1].CouponType !="CASH" || o.Coupon[1].CouponFee != 1 || o.TransId != "1008450740201411110005820873"{
+		if o.OrderNo != "1415757673"  || len(o.Coupon) != 2 || o.Coupon[1].CouponType !="CASH" || o.Coupon[1].CouponFee != 1 || o.TransId != "1008450740201411110005820873"{
 			t.Errorf("Extract Data mismatch %s", o)
 		} else {
 			t.Logf("Test ok")

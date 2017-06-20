@@ -181,9 +181,11 @@ func DecodePaymentResult(o * WeChatOrder, data []byte) error {
 		if oo.RCode.Val != QO_RES_SUCCESS || oo.ErrCode.Val !=""  {
 			return pe("Query Order filed : " + oo.RCode.Val+"  errCode:"+ oo.ErrCode.Val)
 		}
-		o.TradeState = oo.TradeState.Val
-		if o.TradeState == TRADE_STATE_SUCCESS {
+		o.TransId = oo.TransId.Val
+		if o.TransId != "" {
 			populate(o, xmlOrderData(oo))
+		} else {
+			return pe("Query Order filed : " + oo.RCode.Val+"  errCode:"+ oo.ErrCode.Val +" No TransId")
 		}
 		return nil
 	}

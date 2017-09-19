@@ -42,6 +42,12 @@ func (w * WeChatConfig) IsGotJSToken() bool {
 	return !(w.JSToken == "")
 }
 
+//check JS token available or not
+func (w * WeChatConfig) IsServerTokenValid() bool {
+	//FIXME check expired time
+	return !(w.Token == "")
+}
+
 func (w * WeChatConfig) String() string {
 	return fmt.Sprintf("{AppId : %s, Secret : %s , MchId : %s, Token : %s, Expires :%d}", w.AppId, w.Secret, w.MchId, w.Token, w.Expires)
 }

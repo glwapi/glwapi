@@ -18,14 +18,14 @@ func D() * GlwapiConfig {
 }
 
 type  GlwapiHandler interface {
-	Init(appid string, secret string, mchid string, apikey string)  	bool
-	Destroy()  	bool
+	Init(appid string, secret string, mchid string, apikey string)	bool
+	Destroy()	bool
 
 	RegEventListener(h * GlwapiEventsNotifier)
 }
 
 type GlwapiEvent interface {
-	Type()	int	
+	Type()	int
 	Data()	interface{}
 }
 

@@ -73,7 +73,7 @@ func (u * WeChatUser) String() string {
 type WeChatUserP struct {
 	OpenId      string      `json:"openid"`
 	NickName    string      `json:"nickname"`
-	Sex         string      `json:"sex"`
+	Sex         int         `json:"sex"`
 	Province    string      `json:"province"`
 	City        string      `json:"city"`
 	Country     string      `json:"country"`

@@ -49,7 +49,7 @@ func (w * WeChatConfig) IsServerTokenValid() bool {
 }
 
 func (w * WeChatConfig) String() string {
-	return fmt.Sprintf("{AppId : %s, Secret : %s , MchId : %s, Token : %s, Expires :%d}", w.AppId, w.Secret, w.MchId, w.Token, w.Expires)
+	return fmt.Sprintf("{AppId : %s, Secret : %s , MchId : %s, Token : %s, Expires :%d, JSToken %s, JSRtime : %v}", w.AppId, w.Secret, w.MchId, w.Token, w.Expires, w.JSToken, w.JSRtime)
 }
 
 

@@ -291,7 +291,7 @@ func (c * GlwapiConfig) GetTR(r IResource) (IResource, error) {
     if c == nil || c.WeChat == nil ||  !c.WeChat.IsServerTokenValid() {
          return nil, ResourceError{ErrCode :  ERR_R_CODE_PAR, ErrMsg : "Par error"}
     }
-    http_url := fmt.Sprintf("%s?access_token=%s&media_id=%", get_temporary_url, c.WeChat.Token, r.MId())
+    http_url := fmt.Sprintf("%s?access_token=%s&media_id=%s", get_temporary_url, c.WeChat.Token, r.MId())
     resp, err := http.Get(http_url)
     if err != nil {
          return nil, ResourceError{ErrCode :  ERR_R_CODE_NET_IO, ErrMsg : fmt.Sprintf("request fialed :%s", err)}
@@ -362,7 +362,7 @@ func (c * GlwapiConfig) GetPR(r IResource) (IResource, error) {
     if c == nil || c.WeChat == nil ||  !c.WeChat.IsServerTokenValid() {
          return nil, ResourceError{ErrCode :  ERR_R_CODE_PAR, ErrMsg : "Par error"}
     }
-    http_url := fmt.Sprintf("%s?access_token=%s&media_id=%", get_permanent_url, c.WeChat.Token, r.MId())
+    http_url := fmt.Sprintf("%s?access_token=%s&media_id=%s", get_permanent_url, c.WeChat.Token, r.MId())
     resp, err := http.Get(http_url)
     if err != nil {
          return nil, ResourceError{ErrCode :  ERR_R_CODE_NET_IO, ErrMsg : fmt.Sprintf("request fialed :%s", err)}
